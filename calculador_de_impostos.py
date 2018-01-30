@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+""" Strategy Duck Type """
+
 from impostos import ISS, ICMS
 
 class Calculador_de_impostos(object):

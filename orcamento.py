@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 class Orcamento(object):
-    def __init__(self, valor):
+    def __init__(self):
         self.__itens = []
 
     @property
@@ -8,7 +8,7 @@ class Orcamento(object):
         total = 0.0
         for item in self.__itens:
             total += item.valor
-        return self.__valor
+        return total
 
     def obter_itens(self):
         return tuple(self.__itens)
@@ -29,5 +29,5 @@ class Item(object):
     def valor(self):
         return self.__valor
 
-orcamento = Orcamento(500)
-orcamento.valor
+#orcamento = Orcamento(500)
+#orcamento.valor()
