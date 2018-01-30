@@ -28,7 +28,15 @@ if __name__ == '__main__':
     calculador.realiza_calculo(orcamento, ISS())
     calculador.realiza_calculo(orcamento, ICMS())
 
+    print 'ISS + ICMS  with Decorator'
+    #STRATEGY AND DECORATOR
+    calculador.realiza_calculo(orcamento, ISS(ICMS()))
+
     print 'ICPP and IKCV'
     #STRATEGY AND TEMPLATE METHOD
     calculador.realiza_calculo(orcamento, ICPP())
     calculador.realiza_calculo(orcamento, IKCV())
+
+    print 'ICPP + IKCV with Decorator'
+    #STRATEGY AND TEMPLATE METHOD AND DECORATOR
+    calculador.realiza_calculo(orcamento, ICPP(IKCV()))

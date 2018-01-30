@@ -1,17 +1,36 @@
 # -*- coding: UTF-8 -*-
-""" Strategy Duck Type AND Template Method """
+""" Strategy Duck Type AND Template Method AND Decorator """
 
 from abc import ABCMeta, abstractmethod
 
-class Template_de_imposto_condicional(object):
+class Imposto(object):
+    #DECORATOR
+    def __init__(self, outro_imposto = None):
+        self.__outro_imposto = outro_imposto
+
+    def calculo_do_outro_imposto(self, orcamento):
+        if self.__outro_imposto is None:
+            retorno = 0
+        else:
+            retorno = self.__outro_imposto.calcula(orcamento)
+
+        return retorno
+
+    @abstractmethod
+    def calcula(self, orcamento):
+        pass
+
+class Template_de_imposto_condicional(Imposto):
     """Don't call us, we'll call you!"""
     __metaclass__ = ABCMeta
 
     def calcula(self, orcamento):
         if self.deve_usar_maxima_taxacao(orcamento):
-            return self.maxima_taxacao(orcamento)
+            taxacao = self.maxima_taxacao(orcamento)
         else:
-            return self.minima_taxacao(orcamento)
+            taxacao = self.minima_taxacao(orcamento)
+
+        return taxacao + self.calculo_do_outro_imposto(orcamento)
 
     @abstractmethod
     def deve_usar_maxima_taxacao(self, orcamento):
@@ -25,15 +44,15 @@ class Template_de_imposto_condicional(object):
     def minima_taxacao(self, orcamento):
         pass
 
-class ISS(object):
+class ISS(Imposto):
     #STRATEGY
     def calcula(self, orcamento):
-        return orcamento.valor * 0.1
+        return orcamento.valor * 0.1 + self.calculo_do_outro_imposto(orcamento)
 
-class ICMS(object):
+class ICMS(Imposto):
     #STRATEGY
     def calcula(self, orcamento):
-        return orcamento.valor * 0.06
+        return orcamento.valor * 0.06 + self.calculo_do_outro_imposto(orcamento)
 
 class ICPP(Template_de_imposto_condicional):
     #STRATEGY AND TEMPLATE METHOD
@@ -60,7 +79,8 @@ class IKCV(Template_de_imposto_condicional):
 
     def __tem_item_maior_que_cem_reais(self, orcamneto):
 
+        retorno = False
         for item in orcamneto.obter_itens():
             if item.valor > 100:
-                return True
-        return False
+                retorno = True
+        return retorno
