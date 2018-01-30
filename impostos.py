@@ -44,8 +44,15 @@ class Template_de_imposto_condicional(Imposto):
     def minima_taxacao(self, orcamento):
         pass
 
+def IPVX(metodo_ou_funcao):
+    def wrapper(self, orcamento):
+        return metodo_ou_funcao(self, orcamento) + 50
+    return wrapper
+    # chama o cálculo do imposto ISS, pega o resultado e soma com R$ 50,00
+
 class ISS(Imposto):
-    #STRATEGY
+    #STRATEGY AND DECORATOR
+    @IPVX
     def calcula(self, orcamento):
         return orcamento.valor * 0.1 + self.calculo_do_outro_imposto(orcamento)
 
